@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="brand-logo"><i class="fab fa-youtube logo-icon"></i> <span>YT Thumbnail <span class="text-gradient">Downloader</span></span></a>
+            <nav class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section text-center">
+            <div class="container">
+                <div class="badge-pill"><i class="fas fa-bolt"></i> Fast • Simple • Free • Secure</div>
+                <h1 class="hero-title">YouTube <span class="text-danger">Thumbnail</span> Downloader</h1>
+                <p class="hero-subtitle">Download high-quality YouTube video thumbnails in seconds.</p>
+
+                <div class="search-box-wrapper">
+                    <div class="search-box">
+                        <i class="fas fa-link search-icon"></i>
+                        <input type="text" id="youtubeUrlInput" placeholder="Paste YouTube Video or Shorts URL here...">
+                        <button type="button" id="pasteBtn" class="btn-paste"><i class="fas fa-paste"></i> Paste</button>
+                        <button type="button" id="getThumbnailBtn" class="btn-primary"><i class="fas fa-search"></i> <span class="btn-text">Get Thumbnail</span></button>
+                    </div>
+                </div>
+
+                <div id="alertBox" class="alert-box hidden"></div>
+
+                <div class="features-grid">
+                    <div class="feature-card"><div class="feature-icon"><i class="fas fa-image"></i></div><h3>HD Quality</h3><p>Get authentic 1080p and 720p crisp files.</p></div>
+                    <div class="feature-card"><div class="feature-icon"><i class="fas fa-bolt"></i></div><h3>Fast & Reliable</h3><p>Instant fetch and direct processing.</p></div>
+                    <div class="feature-card"><div class="feature-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile Friendly</h3><p>Smooth touch-first responsive design.</p></div>
+                    <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Free & Secure</h3><p>No registration, completely free.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Section -->
+        <section id="resultSection" class="result-section hidden">
+            <div class="container">
+                <div class="result-card">
+                    <div class="result-grid">
+                        <div class="preview-box">
+                            <img id="previewImage" src="" alt="Preview">
+                        </div>
+                        <div class="details-column">
+                            <h2 id="videoTitle" class="video-title">Title</h2>
+                            <p class="video-id">Video ID: <code id="videoIdCode">...</code></p>
+                            <label class="label-heading">Available Qualities:</label>
+                            <div id="qualityOptionsContainer" class="quality-options-grid"></div>
+                            <div class="action-buttons">
+                                <button type="button" id="triggerDownloadBtn" class="btn-download"><i class="fas fa-download"></i> Download Thumbnail</button>
+                                <button type="button" id="tryAnotherBtn" class="btn-secondary"><i class="fas fa-redo"></i> Try Another</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Ad Modal with Timer -->
+    <div id="adModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="ad-badge-clean">Sponsored / Ad</span>
+                <button type="button" id="closeAdBtn" class="modal-close-btn" disabled>✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="ad-container modal-ad-frame">
+                    <div class="ad-demo-banner">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" alt="Ad">
+                        <div class="ad-demo-overlay">
+                            <h3>Explore The World</h3>
+                            <p>Best Travel Deals Up To 70% Off.</p>
+                            <a href="#" class="btn-ad-action" onclick="event.preventDefault()">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-timer-bar">
+                    <span id="adTimerText">This ad will close automatically in <strong>5</strong> seconds...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="skipAdBtn" class="btn-skip" disabled>Please wait <span id="countdownNumber">5</span>s</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loader & Complete Modals -->
+    <div id="loadingModal" class="modal-overlay hidden">
+        <div class="modal-card text-center loading-card">
+            <div class="spinner-circle"></div>
+            <h3>Preparing your download...</h3>
+        </div>
+    </div>
+
+    <div id="completeModal" class="modal-overlay hidden">
+        <div class="modal-card text-center success-card">
+            <div class="success-icon-badge"><i class="fas fa-check"></i></div>
+            <h3>Download Complete!</h3>
+            <p class="text-muted">Your thumbnail has been downloaded.</p>
+            <div class="modal-action-row">
+                <button type="button" id="closeCompleteModalBtn" class="btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>Fast • Simple • Free • Secure | YT Thumbnail Downloader &copy; 2026</p>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
