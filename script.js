@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const triggerDownload = document.getElementById("triggerDownloadBtn");
     const tryAnother = document.getElementById("tryAnotherBtn");
 
+    // Ad Modal & Floating Badge Elements
     const adModal = document.getElementById("adModal");
-    const closeAdBtn = document.getElementById("closeAdBtn");
-    const skipAdBtn = document.getElementById("skipAdBtn");
-    const countdownNum = document.getElementById("countdownNumber");
+    const floatingTimerBadge = document.getElementById("floatingTimerBadge");
+
     const loadingModal = document.getElementById("loadingModal");
     const completeModal = document.getElementById("completeModal");
     const closeCompleteModal = document.getElementById("closeCompleteModalBtn");
@@ -23,9 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedQuality = null;
     let timer = null;
 
-    // 🔥 তোমার Adsterra আসল বিজ্ঞাপনের ডিরেক্ট লিংক
+    // 🔥 তোমার Adsterra ডিরেক্ট লিংক
     const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/tvr358mi?key=42f9df19181da8382b745111a6ead8f6";
 
+    // পেস্ট বাটন
     if (pasteBtn && navigator.clipboard) {
         pasteBtn.addEventListener("click", async () => {
             try {
@@ -85,49 +86,57 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ডাউনলোড বাটনে চাপলেই বাধ্যতামূলক আসল বিজ্ঞাপন ওপেন হবে!
+    // ডাউনলোড বাটনে চাপ দিলে বিজ্ঞাপনের ওপর ভাসমান ছোট ৫ সেকেন্ডের টাইমার চালু হবে
     triggerDownload.addEventListener("click", () => {
         if (!videoData || !selectedQuality) return;
 
-        // 🚀 ১. ব্রাউজারে নতুন ট্যাবে সাথে সাথে আসল বিজ্ঞাপন খুলে যাবে
-        window.open(AD_DIRECT_LINK, "_blank");
-
-        // ২. মডাল ওপেন হয়ে ৫ সেকেন্ডের টাইমার চালু হবে
         adModal.classList.remove("hidden");
-        closeAdBtn.disabled = true;
-        skipAdBtn.disabled = true;
         let left = 5;
-        countdownNum.textContent = left;
+
+        // শুরুর টাইমার ব্যাজ
+        floatingTimerBadge.className = "floating-timer-badge";
+        floatingTimerBadge.innerHTML = `<span>⏱️ Ad: </span><span id="countdownNumber">${left}</span>s`;
+
         clearInterval(timer);
         timer = setInterval(() => {
             left--;
-            countdownNum.textContent = left;
+            const countEl = document.getElementById("countdownNumber");
+            if (countEl) countEl.textContent = left;
+
+            // ৫ সেকেন্ড শেষ হলে টাইমার বদলে সবুজ "Close & Download" বাটনে রূপ নেবে!
             if (left <= 0) {
                 clearInterval(timer);
-                closeAdBtn.disabled = false;
-                skipAdBtn.disabled = false;
-                skipAdBtn.textContent = "Close & Download";
+                floatingTimerBadge.className = "";
+                floatingTimerBadge.innerHTML = `
+                    <button type="button" id="adCloseActionBtn" class="floating-close-btn">
+                        <i class="fas fa-times"></i> Close & Download
+                    </button>
+                `;
+
+                // ইউজার যখন ওই কোণার ক্লোজ বাটনে চাপ দেবে
+                document.getElementById("adCloseActionBtn").addEventListener("click", () => {
+                    // ১. সাথে সাথে নতুন ট্যাবে বিজ্ঞাপন ওপেন হবে (টাকা ইনকাম হবে)
+                    window.open(AD_DIRECT_LINK, "_blank");
+
+                    // ২. বিজ্ঞাপনটি সাথে সাথে স্ক্রিন থেকে কেটে যাবে
+                    adModal.classList.add("hidden");
+                    loadingModal.classList.remove("hidden");
+
+                    // ৩. স্বয়ংক্রিয়ভাবে ছবি ডাউনলোড হয়ে ফোনে সেভ হবে!
+                    setTimeout(() => {
+                        loadingModal.classList.add("hidden");
+                        const a = document.createElement("a");
+                        a.href = `/download?id=${videoData.video_id}&quality=${selectedQuality.id}`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        completeModal.classList.remove("hidden");
+                    }, 1000);
+                });
             }
         }, 1000);
     });
 
-    function startDownload() {
-        clearInterval(timer);
-        adModal.classList.add("hidden");
-        loadingModal.classList.remove("hidden");
-        setTimeout(() => {
-            loadingModal.classList.add("hidden");
-            const a = document.createElement("a");
-            a.href = `/download?id=${videoData.video_id}&quality=${selectedQuality.id}`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            completeModal.classList.remove("hidden");
-        }, 1500);
-    }
-
-    closeAdBtn.addEventListener("click", startDownload);
-    skipAdBtn.addEventListener("click", startDownload);
     closeCompleteModal.addEventListener("click", () => completeModal.classList.add("hidden"));
     tryAnother.addEventListener("click", () => { urlInput.value = ""; resultSection.classList.add("hidden"); window.scrollTo({top:0, behavior:"smooth"}); });
 
