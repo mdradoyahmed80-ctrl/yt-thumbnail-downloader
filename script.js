@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const urlInput = document.getElementById("youtubeUrlInput");
     const getBtn = document.getElementById("getThumbnailBtn");
@@ -23,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let videoData = null;
     let selectedQuality = null;
     let timer = null;
+
+    // 🔥 তোমার Adsterra আসল বিজ্ঞাপনের ডিরেক্ট লিংক
+    const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/tvr358mi?key=42f9df19181da8382b745111a6ead8f6";
 
     if (pasteBtn && navigator.clipboard) {
         pasteBtn.addEventListener("click", async () => {
@@ -83,8 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // ডাউনলোড বাটনে চাপলেই বাধ্যতামূলক আসল বিজ্ঞাপন ওপেন হবে!
     triggerDownload.addEventListener("click", () => {
         if (!videoData || !selectedQuality) return;
+
+        // 🚀 ১. ব্রাউজারে নতুন ট্যাবে সাথে সাথে আসল বিজ্ঞাপন খুলে যাবে
+        window.open(AD_DIRECT_LINK, "_blank");
+
+        // ২. মডাল ওপেন হয়ে ৫ সেকেন্ডের টাইমার চালু হবে
         adModal.classList.remove("hidden");
         closeAdBtn.disabled = true;
         skipAdBtn.disabled = true;
