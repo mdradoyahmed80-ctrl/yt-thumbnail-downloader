@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader – Download YouTube Thumbnails in HD</title>
+    <meta name="description" content="Download available YouTube video thumbnails quickly and easily with our free online thumbnail downloader. Get 1080p, 720p, HD & SD thumbnails in seconds.">
+    
+    <!-- Open Graph SEO -->
+    <meta property="og:title" content="YouTube Thumbnail Downloader – Free & Fast">
+    <meta property="og:description" content="Instant YouTube video and Shorts thumbnail download in HD, 1080p, 720p.">
+    <meta property="og:type" content="website">
+
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dark-theme">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fab fa-youtube logo-icon"></i>
+                <span>YT Thumbnail <span class="text-gradient">Downloader</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- STEP 1: HERO SECTION & URL INPUT -->
+    <main class="main-content">
+        <section class="hero-section text-center">
+            <div class="container">
+                <div class="badge-pill">
+                    <i class="fas fa-bolt"></i> Fast • Simple • Free • Secure
+                </div>
+                <h1 class="hero-title">YouTube <span class="text-danger">Thumbnail</span> Downloader</h1>
+                <p class="hero-subtitle">Download high-quality YouTube video thumbnails in seconds.</p>
+
+                <!-- URL INPUT BOX -->
+                <div class="search-box-wrapper">
+                    <div class="search-box">
+                        <i class="fas fa-link search-icon"></i>
+                        <input type="text" id="youtubeUrlInput" placeholder="Paste YouTube Video or Shorts URL here..." autocomplete="off">
+                        <button type="button" id="pasteBtn" class="btn-paste" title="Paste from clipboard">
+                            <i class="fas fa-paste"></i> Paste
+                        </button>
+                        <button type="button" id="getThumbnailBtn" class="btn-primary">
+                            <i class="fas fa-search"></i> <span class="btn-text">Get Thumbnail</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ALERT NOTIFICATION BANNER -->
+                <div id="alertBox" class="alert-box hidden"></div>
+
+                <!-- TOP AD PLACEHOLDER -->
+                <div class="ad-container-wrapper">
+                    <div class="ad-placeholder">
+                        <span class="ad-badge">Sponsored / Ad</span>
+                        <div class="ad-inner-content">
+                            <i class="fas fa-ad fa-2x"></i>
+                            <p><strong>Discover Amazing Deals</strong> — Upgrade your digital workflow with fast creative tools.</p>
+                            <a href="#" class="btn-ad-demo" onclick="event.preventDefault()">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FEATURE CARDS -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-image"></i></div>
+                        <h3>HD Quality</h3>
+                        <p>Get authentic 1080p and 720p crisp original image files.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Fast & Reliable</h3>
+                        <p>Instant fetch and direct image processing with no lag.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Mobile Friendly</h3>
+                        <p>Smooth touch-first responsive design on any mobile device.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Free & Secure</h3>
+                        <p>No registration, no accounts, and completely free.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 2: RESULT CARD (Appears on valid URL) -->
+        <section id="resultSection" class="result-section hidden">
+            <div class="container">
+                <div class="result-card">
+                    <div class="result-grid">
+                        <!-- Preview Column -->
+                        <div class="preview-box">
+                            <img id="previewImage" src="" alt="YouTube Thumbnail Preview">
+                        </div>
+
+                        <!-- Details & Quality Column -->
+                        <div class="details-column">
+                            <h2 id="videoTitle" class="video-title">YouTube Video Title</h2>
+                            <p class="video-id">Video ID: <code id="videoIdCode">dQw4w9WgXcQ</code></p>
+
+                            <label class="label-heading">Available Qualities:</label>
+                            <div id="qualityOptionsContainer" class="quality-options-grid">
+                                <!-- Populated dynamically by script.js -->
+                            </div>
+
+                            <div class="action-buttons">
+                                <button type="button" id="triggerDownloadBtn" class="btn-download">
+                                    <i class="fas fa-download"></i> Download Thumbnail
+                                </button>
+                                <button type="button" id="tryAnotherBtn" class="btn-secondary">
+                                    <i class="fas fa-redo"></i> Try Another URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- STEP 3 & 4: ADVERTISEMENT MODAL WITH COUNTDOWN TIMER -->
+    <div id="adModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="ad-badge-clean">Sponsored / Advertisement</span>
+                <button type="button" id="closeAdBtn" class="modal-close-btn" disabled title="Please wait for the timer">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- ======================================================== -->
+                <!-- ভবিষ্যতে আসল অ্যাড কোড বসানোর ফ্রেম (AD CONTAINER) -->
+                <!-- ======================================================== -->
+                <div class="ad-container modal-ad-frame">
+                    
+                    <!-- নিচের এই ব্যানারের জায়গায় Adsterra বা Google AdSense কোড পেস্ট করবে -->
+                    <div class="ad-demo-banner">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" alt="Sponsor Banner">
+                        <div class="ad-demo-overlay">
+                            <h3>Explore The World</h3>
+                            <p>Best Travel Deals Up To 70% Off for early booking.</p>
+                            <a href="#" class="btn-ad-action" onclick="event.preventDefault()">Book Now</a>
+                        </div>
+                    </div>
+                    <!-- ======================================================== -->
+
+                </div>
+
+                <div class="modal-timer-bar">
+                    <span id="adTimerText">This ad will close automatically in <strong>5</strong> seconds...</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="skipAdBtn" class="btn-skip" disabled>
+                    Please wait <span id="countdownNumber">5</span>s
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 5: PREPARING DOWNLOAD LOADER MODAL -->
+    <div id="loadingModal" class="modal-overlay hidden">
+        <div class="modal-card text-center loading-card">
+            <div class="spinner-circle"></div>
+            <h3 style="margin-top: 15px;">Preparing your download...</h3>
+            <p class="text-muted" style="font-size: 0.85rem;">Please wait, your high-resolution thumbnail is ready.</p>
+        </div>
+    </div>
+
+    <!-- STEP 6: DOWNLOAD COMPLETE SUCCESS MODAL -->
+    <div id="completeModal" class="modal-overlay hidden">
+        <div class="modal-card text-center success-card">
+            <div class="success-icon-badge">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Download Complete!</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 15px;">Your thumbnail has been downloaded to your device.</p>
+            <div class="modal-action-row">
+                <button type="button" id="closeCompleteModalBtn" class="btn-secondary" style="width: 100%;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="footer-tagline">Fast • Simple • Free • Secure</p>
+            <p style="margin: 8px 0;">
+                <a href="/about" style="color: var(--muted); text-decoration: none; margin: 0 8px;">About</a> |
+                <a href="/privacy" style="color: var(--muted); text-decoration: none; margin: 0 8px;">Privacy Policy</a> |
+                <a href="/terms" style="color: var(--muted); text-decoration: none; margin: 0 8px;">Terms & Disclaimer</a> |
+                <a href="/contact" style="color: var(--muted); text-decoration: none; margin: 0 8px;">Contact</a>
+            </p>
+            <p class="copyright-text">&copy; 2026 YT Thumbnail Downloader. Not affiliated with YouTube/Google LLC.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
