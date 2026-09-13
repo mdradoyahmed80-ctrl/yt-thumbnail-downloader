@@ -13,8 +13,113 @@
 
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Top Promo Bar for Official Telegram Bot */
+        .top-promo-bar {
+            background: linear-gradient(90deg, #1e1b4b, #311042, #1e1b4b);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        .btn-promo-link {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-promo-link:hover {
+            transform: scale(1.05);
+        }
+
+        /* In-Modal Direct Ad Click Card */
+        .modal-ad-click-card {
+            display: block;
+            background: linear-gradient(145deg, #1e1b4b, #0f172a);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 14px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .modal-ad-click-card:hover {
+            transform: translateY(-2px);
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+        .badge-special {
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            color: #f472b6;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .modal-ad-click-card h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+        .modal-ad-click-card p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .btn-ad-visit {
+            background: #f59e0b;
+            color: #000000;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Responsive Container for Banner Ads */
+        .live-ad-box {
+            margin: 25px auto;
+            text-align: center;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body class="dark-theme">
+
+    <!-- TOP PROMO BAR (শুধু তোমার @BDBD_24_OnlineBot লিংক) -->
+    <div class="top-promo-bar">
+        <span>🤖 <strong>Official Bot:</strong> Connect with our official Telegram Bot!</span>
+        <a href="https://t.me/BDBD_24_OnlineBot" target="_blank" rel="noopener" class="btn-promo-link">
+            <i class="fab fa-telegram-plane"></i> @BDBD_24_OnlineBot ↗️
+        </a>
+    </div>
 
     <!-- NAVIGATION HEADER -->
     <header class="navbar">
@@ -60,16 +165,10 @@
                 <!-- ALERT NOTIFICATION BANNER -->
                 <div id="alertBox" class="alert-box hidden"></div>
 
-                <!-- TOP AD PLACEHOLDER -->
-                <div class="ad-container-wrapper">
-                    <div class="ad-placeholder">
-                        <span class="ad-badge">Sponsored / Ad</span>
-                        <div class="ad-inner-content">
-                            <i class="fas fa-ad fa-2x"></i>
-                            <p><strong>Discover Amazing Deals</strong> — Upgrade your digital workflow with fast creative tools.</p>
-                            <a href="#" class="btn-ad-demo" onclick="event.preventDefault()">Learn More</a>
-                        </div>
-                    </div>
+                <!-- তোমার আসল ADSTERRA ব্যানার বিজ্ঞাপন -->
+                <div class="live-ad-box">
+                    <script async="async" data-cfasync="false" src="https://pl31319823.profitableratecpmnetwork.com/bc8f94153bf223e4b6beeb5d9ce837fe/invoke.js"></script>
+                    <div id="container-bc8f94153bf223e4b6beeb5d9ce837fe"></div>
                 </div>
 
                 <!-- FEATURE CARDS -->
@@ -133,40 +232,31 @@
         </section>
     </main>
 
-    <!-- STEP 3 & 4: ADVERTISEMENT MODAL WITH COUNTDOWN TIMER -->
+    <!-- STEP 3 & 4: SPONSORED UNLOCK MODAL (ক্লিকেবল ডিরেক্ট অ্যাড কার্ড সহ) -->
     <div id="adModal" class="modal-overlay hidden">
         <div class="modal-card">
             <div class="modal-header">
-                <span class="ad-badge-clean">Sponsored / Advertisement</span>
+                <span class="ad-badge-clean"><i class="fas fa-shield-alt text-danger"></i> Sponsored Verification</span>
                 <button type="button" id="closeAdBtn" class="modal-close-btn" disabled title="Please wait for the timer">✕</button>
             </div>
             
-            <div class="modal-body">
-                <!-- ======================================================== -->
-                <!-- ভবিষ্যতে আসল অ্যাড কোড বসানোর ফ্রেম (AD CONTAINER) -->
-                <!-- ======================================================== -->
-                <div class="ad-container modal-ad-frame">
-                    
-                    <!-- নিচের এই ব্যানারের জায়গায় Adsterra বা Google AdSense কোড পেস্ট করবে -->
-                    <div class="ad-demo-banner">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" alt="Sponsor Banner">
-                        <div class="ad-demo-overlay">
-                            <h3>Explore The World</h3>
-                            <p>Best Travel Deals Up To 70% Off for early booking.</p>
-                            <a href="#" class="btn-ad-action" onclick="event.preventDefault()">Book Now</a>
-                        </div>
-                    </div>
-                    <!-- ======================================================== -->
-
-                </div>
+            <div class="modal-body text-center" style="padding: 20px 18px;">
+                <!-- ক্লিকেবল Adsterra ডিরেক্ট অ্যাড কার্ড -->
+                <a href="https://www.profitableratecpmnetwork.com/tvr358mi?key=42f9df19181da8382b745111a6ead8f6" target="_blank" rel="noopener" class="modal-ad-click-card">
+                    <span class="badge-special">Exclusive Sponsor</span>
+                    <h4>Claim Verified Deals & Rewards Today</h4>
+                    <p>Tap here to explore our official sponsor network</p>
+                    <span class="btn-ad-visit">Visit Sponsor <i class="fas fa-external-link-alt"></i></span>
+                </a>
 
                 <div class="modal-timer-bar">
-                    <span id="adTimerText">This ad will close automatically in <strong>5</strong> seconds...</span>
+                    <i class="fas fa-hourglass-half fa-spin text-danger"></i>
+                    <span id="adTimerText">Your download will unlock in <strong>5</strong> seconds...</span>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="skipAdBtn" class="btn-skip" disabled>
+                <button type="button" id="skipAdBtn" class="btn-skip" disabled style="width: 100%; justify-content: center;">
                     Please wait <span id="countdownNumber">5</span>s
                 </button>
             </div>
