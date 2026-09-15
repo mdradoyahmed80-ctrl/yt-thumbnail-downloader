@@ -44,7 +44,7 @@
         }
         .btn-promo-link:hover { transform: scale(1.05); }
 
-        /* Responsive Container for Banner Ads */
+        /* Homepage Banner Ad */
         .live-ad-box {
             margin: 25px auto;
             text-align: center;
@@ -55,75 +55,60 @@
             align-items: center;
         }
 
-        /* FLOATING REWARDED CORNER BADGE (ইউটিউব/মোবাইল গেম স্টাইল) */
-        .ad-modal-viewport {
-            position: relative;
-            background: #110927;
+        /* 100% REAL AD MODAL & 1-LINE CLOSE BUTTON */
+        .ad-modal-card {
+            background: #0f0a21;
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+            padding: 16px;
             width: 100%;
-            max-width: 460px;
-        }
-        .corner-timer-container {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            z-index: 60;
-        }
-        .floating-timer-badge {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 5px 12px;
-            border-radius: 9999px;
-            font-family: monospace;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .floating-close-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            border: 1px solid #34d399;
-            color: #ffffff;
-            font-size: 0.8rem;
-            font-weight: 800;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 0 16px rgba(16, 185, 129, 0.7);
-            animation: pulse-close 1.2s infinite;
-        }
-        @keyframes pulse-close {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
-        }
-
-        /* In-Modal Ad Content */
-        .modal-ad-creative {
-            padding: 45px 20px 25px;
+            max-width: 360px;
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.95);
             text-align: center;
         }
-        .sponsor-lead-card {
-            background: linear-gradient(145deg, #1c133a, #130a2a);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+        .real-ad-wrapper {
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .btn-ad-action-line {
+            width: 100%;
+            padding: 13px;
             border-radius: 12px;
-            padding: 20px 15px;
-            margin-bottom: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #1e1b4b;
+            color: #94a3b8;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-ad-ready {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: #ffffff !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            animation: pulse-line 1.2s infinite;
+        }
+        @keyframes pulse-line {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
     </style>
 </head>
 <body class="dark-theme">
 
-    <!-- TOP PROMO BAR (@BDBD_24_OnlineBot লিংক) -->
+    <!-- TOP PROMO BAR (শুধু তোমার @BDBD_24_OnlineBot লিংক) -->
     <div class="top-promo-bar">
         <span>🤖 <strong>Official Bot:</strong> Connect with our official Telegram Bot!</span>
         <a href="https://t.me/BDBD_24_OnlineBot" target="_blank" rel="noopener" class="btn-promo-link">
@@ -175,7 +160,7 @@
                 <!-- ALERT NOTIFICATION BANNER -->
                 <div id="alertBox" class="alert-box hidden"></div>
 
-                <!-- তোমার আসল ADSTERRA ব্যানার বিজ্ঞাপন -->
+                <!-- আসল ADSTERRA ব্যানার বিজ্ঞাপন -->
                 <div class="live-ad-box">
                     <script async="async" data-cfasync="false" src="https://pl31319823.profitableratecpmnetwork.com/bc8f94153bf223e4b6beeb5d9ce837fe/invoke.js"></script>
                     <div id="container-bc8f94153bf223e4b6beeb5d9ce837fe"></div>
@@ -242,28 +227,21 @@
         </section>
     </main>
 
-    <!-- STEP 3 & 4: REWARDED AD OVERLAY (ডানপাশের ওপরের কোণায় ভাসমান ছোট টাইমার সহ) -->
+    <!-- STEP 3 & 4: আসল কোম্পানির বিজ্ঞাপন + ১ লাইনে ক্লোজ সিস্টেম (কোনো নকল লেখা নেই) -->
     <div id="adModal" class="modal-overlay hidden">
-        <div class="ad-modal-viewport">
-            <!-- ⏱️ ওপরের ডানপাশের ভাসমান টাইমার/ক্লোজ বাটন কন্টেইনার -->
-            <div class="corner-timer-container">
-                <div id="floatingTimerBadge" class="floating-timer-badge">
-                    <span>⏱️ Ad: </span><span id="countdownNumber">5</span>s
-                </div>
+        <div class="ad-modal-card">
+            
+            <!-- আসল Adsterra ব্যানার বিজ্ঞাপন ফ্রেম -->
+            <div class="real-ad-wrapper">
+                <script async="async" data-cfasync="false" src="https://pl31319823.profitableratecpmnetwork.com/bc8f94153bf223e4b6beeb5d9ce837fe/invoke.js"></script>
+                <div id="container-bc8f94153bf223e4b6beeb5d9ce837fe"></div>
             </div>
 
-            <!-- বিজ্ঞাপনের মূল বডি -->
-            <div class="modal-ad-creative">
-                <div class="sponsor-lead-card">
-                    <span style="font-size: 0.7rem; color: #c084fc; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Sponsored Promotion</span>
-                    <h3 style="font-size: 1.15rem; font-weight: 800; margin: 8px 0 4px; color: #ffffff;">Sponsored Verification Active</h3>
-                    <p style="font-size: 0.8rem; color: #94a3b8;">আপনার হাই-রেজোলিউশন থাম্বনেইল প্রস্তুত হচ্ছে। ওপরের টাইমার শেষ হলে কেটে দিন।</p>
-                </div>
+            <!-- ১ লাইনের বাটন: শুরুতে টাইমার চলবে, ৫ সেকেন্ড পর 'Close & Download' হয়ে যাবে -->
+            <button type="button" id="adActionBtn" class="btn-ad-action-line" disabled>
+                <i class="fas fa-hourglass-half fa-spin"></i> Ad running... <span id="adSeconds">5</span>s
+            </button>
 
-                <p style="font-size: 0.72rem; color: #64748b;">
-                    <i class="fas fa-info-circle mr-1"></i> টাইমার শেষ হলে উপরের বাটনে চাপ দিলে স্বয়ংক্রিয়ভাবে ফাইল ডাউনলোড হবে।
-                </p>
-            </div>
         </div>
     </div>
 
