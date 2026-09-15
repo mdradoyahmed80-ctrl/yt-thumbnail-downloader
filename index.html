@@ -44,7 +44,7 @@
         }
         .btn-promo-link:hover { transform: scale(1.05); }
 
-        /* Homepage Banner Ad */
+        /* Banner Ad Container */
         .live-ad-box {
             margin: 25px auto;
             text-align: center;
@@ -55,60 +55,45 @@
             align-items: center;
         }
 
-        /* 100% REAL AD MODAL & 1-LINE CLOSE BUTTON */
-        .ad-modal-card {
-            background: #0f0a21;
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 16px;
-            padding: 16px;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 0 35px rgba(0, 0, 0, 0.95);
-            text-align: center;
-        }
-        .real-ad-wrapper {
-            min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .btn-ad-action-line {
-            width: 100%;
-            padding: 13px;
+        /* Dynamic Status & Warning Banner */
+        .status-toast {
+            max-width: 780px;
+            margin: 15px auto;
+            padding: 14px 20px;
             border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: #1e1b4b;
-            color: #94a3b8;
-            cursor: not-allowed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
-        .btn-ad-ready {
-            background: linear-gradient(135deg, #10b981, #059669) !important;
-            color: #ffffff !important;
-            border: none !important;
-            cursor: pointer !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-            animation: pulse-line 1.2s infinite;
+        .status-toast.warning {
+            display: block;
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
         }
-        @keyframes pulse-line {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        .status-toast.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid #10b981;
+            color: #6ee7b7;
+        }
+        .status-toast.info {
+            display: block;
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid #3b82f6;
+            color: #93c5fd;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="dark-theme">
 
-    <!-- TOP PROMO BAR (শুধু তোমার @BDBD_24_OnlineBot লিংক) -->
+    <!-- TOP PROMO BAR (অফিসিয়াল টেলিগ্রাম বট লিংক) -->
     <div class="top-promo-bar">
         <span>🤖 <strong>Official Bot:</strong> Connect with our official Telegram Bot!</span>
         <a href="https://t.me/BDBD_24_OnlineBot" target="_blank" rel="noopener" class="btn-promo-link">
@@ -157,7 +142,8 @@
                     </div>
                 </div>
 
-                <!-- ALERT NOTIFICATION BANNER -->
+                <!-- DYNAMIC AD STATUS / WARNING BOX -->
+                <div id="statusToast" class="status-toast"></div>
                 <div id="alertBox" class="alert-box hidden"></div>
 
                 <!-- আসল ADSTERRA ব্যানার বিজ্ঞাপন -->
@@ -226,49 +212,6 @@
             </div>
         </section>
     </main>
-
-    <!-- STEP 3 & 4: আসল কোম্পানির বিজ্ঞাপন + ১ লাইনে ক্লোজ সিস্টেম (কোনো নকল লেখা নেই) -->
-    <div id="adModal" class="modal-overlay hidden">
-        <div class="ad-modal-card">
-            
-            <!-- আসল Adsterra ব্যানার বিজ্ঞাপন ফ্রেম -->
-            <div class="real-ad-wrapper">
-                <script async="async" data-cfasync="false" src="https://pl31319823.profitableratecpmnetwork.com/bc8f94153bf223e4b6beeb5d9ce837fe/invoke.js"></script>
-                <div id="container-bc8f94153bf223e4b6beeb5d9ce837fe"></div>
-            </div>
-
-            <!-- ১ লাইনের বাটন: শুরুতে টাইমার চলবে, ৫ সেকেন্ড পর 'Close & Download' হয়ে যাবে -->
-            <button type="button" id="adActionBtn" class="btn-ad-action-line" disabled>
-                <i class="fas fa-hourglass-half fa-spin"></i> Ad running... <span id="adSeconds">5</span>s
-            </button>
-
-        </div>
-    </div>
-
-    <!-- STEP 5: PREPARING DOWNLOAD LOADER MODAL -->
-    <div id="loadingModal" class="modal-overlay hidden">
-        <div class="modal-card text-center loading-card">
-            <div class="spinner-circle"></div>
-            <h3 style="margin-top: 15px;">ছবি সেভ হচ্ছে...</h3>
-            <p class="text-muted" style="font-size: 0.85rem;">১ সেকেন্ডের মধ্যে আপনার ফোনে ডাউনলোড শুরু হবে।</p>
-        </div>
-    </div>
-
-    <!-- STEP 6: DOWNLOAD COMPLETE SUCCESS MODAL -->
-    <div id="completeModal" class="modal-overlay hidden">
-        <div class="modal-card text-center success-card">
-            <div class="success-icon-badge">
-                <i class="fas fa-check"></i>
-            </div>
-            <h3>Download Complete!</h3>
-            <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 15px;">আপনার থাম্বনেইল সফলভাবে ডাউনলোড হয়েছে।</p>
-            <div class="modal-action-row">
-                <button type="button" id="closeCompleteModalBtn" class="btn-secondary" style="width: 100%;">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- FOOTER -->
     <footer class="footer">

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const getBtn = document.getElementById("getThumbnailBtn");
     const pasteBtn = document.getElementById("pasteBtn");
     const alertBox = document.getElementById("alertBox");
+    const statusToast = document.getElementById("statusToast");
     const resultSection = document.getElementById("resultSection");
     const previewImg = document.getElementById("previewImage");
     const videoTitle = document.getElementById("videoTitle");
@@ -11,20 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const triggerDownload = document.getElementById("triggerDownloadBtn");
     const tryAnother = document.getElementById("tryAnotherBtn");
 
-    // Ad Modal & Floating Badge Elements
-    const adModal = document.getElementById("adModal");
-    const floatingTimerBadge = document.getElementById("floatingTimerBadge");
-
-    const loadingModal = document.getElementById("loadingModal");
-    const completeModal = document.getElementById("completeModal");
-    const closeCompleteModal = document.getElementById("closeCompleteModalBtn");
-
     let videoData = null;
     let selectedQuality = null;
-    let timer = null;
 
-    // 🔥 তোমার Adsterra ডিরেক্ট লিংক
+    // 🔥 তোমার আসল Adsterra ডিরেক্ট লিংক
     const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/tvr358mi?key=42f9df19181da8382b745111a6ead8f6";
+
+    // অ্যাড দেখার বাধ্যতামূলক সময় (৬ সেকেন্ড)
+    const REQUIRED_AD_SECONDS = 6;
+    let adWatchStarted = false;
+    let adStartTime = 0;
 
     // পেস্ট বাটন
     if (pasteBtn && navigator.clipboard) {
@@ -42,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchThumbnail() {
         const url = urlInput.value.trim();
         if (!url) { showAlert("দয়া করে একটি YouTube লিংক পেস্ট করুন।"); return; }
+        hideToast();
         alertBox.classList.add("hidden");
         getBtn.disabled = true;
         getBtn.querySelector(".btn-text").textContent = "Fetching...";
@@ -86,59 +84,77 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ডাউনলোড বাটনে চাপ দিলে বিজ্ঞাপনের ওপর ভাসমান ছোট ৫ সেকেন্ডের টাইমার চালু হবে
+    // 🔥 ডাউনলোড বাটনে চাপ দিলে সরাসরি আসল বিজ্ঞাপন ওপেন হবে এবং ট্র্যাকিং শুরু হবে
     triggerDownload.addEventListener("click", () => {
         if (!videoData || !selectedQuality) return;
 
-        adModal.classList.remove("hidden");
-        let left = 5;
+        adWatchStarted = true;
+        adStartTime = Date.now();
 
-        // শুরুর টাইমার ব্যাজ
-        floatingTimerBadge.className = "floating-timer-badge";
-        floatingTimerBadge.innerHTML = `<span>⏱️ Ad: </span><span id="countdownNumber">${left}</span>s`;
+        // ১. ব্রাউজারে নতুন ট্যাবে সাথে সাথে আসল বিজ্ঞাপন খুলে যাবে
+        window.open(AD_DIRECT_LINK, "_blank");
 
-        clearInterval(timer);
-        timer = setInterval(() => {
-            left--;
-            const countEl = document.getElementById("countdownNumber");
-            if (countEl) countEl.textContent = left;
+        // ২. বাটনের টেক্সট পরিবর্তন ও মেসেজ দেখানো
+        triggerDownload.disabled = true;
+        triggerDownload.innerHTML = `<i class="fas fa-spinner fa-spin"></i> বিজ্ঞাপনটি দেখুন...`;
 
-            // ৫ সেকেন্ড শেষ হলে টাইমার বদলে সবুজ "Close & Download" বাটনে রূপ নেবে!
-            if (left <= 0) {
-                clearInterval(timer);
-                floatingTimerBadge.className = "";
-                floatingTimerBadge.innerHTML = `
-                    <button type="button" id="adCloseActionBtn" class="floating-close-btn">
-                        <i class="fas fa-times"></i> Close & Download
-                    </button>
-                `;
-
-                // ইউজার যখন ওই কোণার ক্লোজ বাটনে চাপ দেবে
-                document.getElementById("adCloseActionBtn").addEventListener("click", () => {
-                    // ১. সাথে সাথে নতুন ট্যাবে বিজ্ঞাপন ওপেন হবে (টাকা ইনকাম হবে)
-                    window.open(AD_DIRECT_LINK, "_blank");
-
-                    // ২. বিজ্ঞাপনটি সাথে সাথে স্ক্রিন থেকে কেটে যাবে
-                    adModal.classList.add("hidden");
-                    loadingModal.classList.remove("hidden");
-
-                    // ৩. স্বয়ংক্রিয়ভাবে ছবি ডাউনলোড হয়ে ফোনে সেভ হবে!
-                    setTimeout(() => {
-                        loadingModal.classList.add("hidden");
-                        const a = document.createElement("a");
-                        a.href = `/download?id=${videoData.video_id}&quality=${selectedQuality.id}`;
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
-                        completeModal.classList.remove("hidden");
-                    }, 1000);
-                });
-            }
-        }, 1000);
+        showToast("info", "⏳ বিজ্ঞাপনটি ওপেন হয়েছে। থাম্বনেইল আনলক করতে বিজ্ঞাপনটিতে অন্তত ৬ সেকেন্ড থাকুন...");
     });
 
-    closeCompleteModal.addEventListener("click", () => completeModal.classList.add("hidden"));
-    tryAnother.addEventListener("click", () => { urlInput.value = ""; resultSection.classList.add("hidden"); window.scrollTo({top:0, behavior:"smooth"}); });
+    // 🕵️‍♂️ ইউজার বিজ্ঞাপন দেখে আমাদের সাইটে ফিরে আসলে স্বয়ংক্রিয়ভাবে চেক হবে
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && adWatchStarted) {
+            const timeSpent = (Date.now() - adStartTime) / 1000;
 
-    function showAlert(msg) { alertBox.textContent = msg; alertBox.classList.remove("hidden"); }
+            // যদি সে ৬ সেকেন্ড বা তার বেশি সময় বিজ্ঞাপনে থেকে থাকে:
+            if (timeSpent >= REQUIRED_AD_SECONDS) {
+                adWatchStarted = false;
+                triggerDownload.disabled = false;
+                triggerDownload.innerHTML = `<i class="fas fa-check"></i> Download Thumbnail`;
+
+                showToast("success", "✅ বিজ্ঞাপন দেখা সফল হয়েছে! আপনার থাম্বনেইল ডাউনলোড হচ্ছে...");
+
+                // 🚀 কোনো ক্লিক ছাড়াই স্বয়ংক্রিয়ভাবে ফোনে ছবি ডাউনলোড হবে!
+                executeFileDownload();
+            } else {
+                // যদি সে ৬ সেকেন্ডের আগে কেটে চলে আসে:
+                adWatchStarted = false;
+                triggerDownload.disabled = false;
+                triggerDownload.innerHTML = `<i class="fas fa-download"></i> Download Thumbnail`;
+
+                showToast("warning", "⚠️ সম্পূর্ণ বিজ্ঞাপনটি দেখা হয়নি! থাম্বনেইল ডাউনলোড করতে বিজ্ঞাপনটিতে অন্তত ৬ সেকেন্ড থাকুন।");
+            }
+        }
+    });
+
+    // আসল ছবি ডাউনলোড ফাংশন
+    function executeFileDownload() {
+        const a = document.createElement("a");
+        a.href = `/download?id=${videoData.video_id}&quality=${selectedQuality.id}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+    tryAnother.addEventListener("click", () => {
+        urlInput.value = "";
+        resultSection.classList.add("hidden");
+        hideToast();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    function showToast(type, text) {
+        statusToast.className = `status-toast ${type}`;
+        statusToast.innerHTML = text;
+    }
+
+    function hideToast() {
+        statusToast.className = "status-toast";
+        statusToast.innerHTML = "";
+    }
+
+    function showAlert(msg) {
+        alertBox.textContent = msg;
+        alertBox.classList.remove("hidden");
+    }
 });
